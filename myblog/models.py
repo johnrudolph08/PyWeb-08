@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 class Post(models.Model):
     title = models.CharField(max_length=128)
@@ -11,6 +12,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('blog_detail', kwargs={'post_id': self.id})
 
 class Category(models.Model):
     name = models.CharField(max_length=128)

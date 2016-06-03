@@ -17,6 +17,23 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
+from rest_framework import routers, serializers, viewsets
+from myblog.models import Post
+
+# Serializers define the API representation.
+class PostSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('title', 'text')
+
+# ViewSets define the view behavior.
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'post', PostViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,4 +47,5 @@ urlpatterns = [
         logout,
         {'next_page': '/'},
         name="logout"),
+    url(r'^api/', include(router.urls)),
 ]

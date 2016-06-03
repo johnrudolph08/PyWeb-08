@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import RequestContext, loader
+from django.views.generic.edit import CreateView, UpdateView
+from django.core.urlresolvers import reverse_lazy
 
 from myblog.models import Post
 
@@ -28,3 +30,11 @@ def detail_view(request, post_id):
         raise Http404
     context = {'post': post}
     return render(request, 'detail.html', context)
+
+class PostCreate(CreateView):
+    model = Post
+    fields = ['title', 'text', 'author', 'published_date']
+
+class PostUpdate(UpdateView):
+    model = Post
+    fields = ['title', 'text', 'author', 'published_date']
