@@ -1,9 +1,29 @@
-{% extends "base.html" %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Django Blog</title>
+    <link type="text/css" rel="stylesheet" href="{% static 'django_blog.css' %}">
+  </head>
+  <body>
+    <div id="header">
+        <ul id="control-bar">
+        {% if user.is_authenticated %}
+          <!-- admin link -->
+          <a href="{% url 'admin:index' %}">admin</a>
+          <!-- logout link -->
+          <a href="{% url 'logout' %}">logout</a>
+          <!-- login link -->
+          <a href="{% url 'login' %}">login</a>
+        {% endif %}
+        </ul>
+    </div>
+    	<form action="" method="post">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Save" />
+		</form>
+    </div>
+  </body>
+</html>
 
-{% block uinput %}
-<form action="" method="post">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<input type="submit" value="Save" />
-</form>
-{% endblock %}
